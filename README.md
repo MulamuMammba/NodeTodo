@@ -2,7 +2,9 @@
 
 This is a simple Todo List API built with Node.js and Express. The API allows users to create, read, update, and delete tasks. Users can also mark tasks as completed or important.
 
-![Screenshot of Todo List App](https://github.com/user-attachments/assets/2d2487b2-c690-4a91-8d90-949ee135150e)
+![Screenshot 2024-11-08 113837](https://github.com/user-attachments/assets/a6722def-b3b9-4c6b-bce1-8a2a96661a82)
+
+
 
 ## Table of Contents
 - [Project Overview](#project-overview)
