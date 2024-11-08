@@ -16,7 +16,17 @@
         </div>
 
         <div class="grid-item-list glass">
-            <ul id="todoList"></ul>
+            <div class="list-grid">
+                <div class="list-container">
+                    <h2 id="incompleteTasks">Incomplete Tasks</h1>
+                    <ul id="todoList"></ul>
+                </div>
+                <div class="list-container">
+                    <h2 id="completedTasks">Completed Tasks</h2>
+                    <ul id="todoList2"></ul>
+                </div>
+            </div>
+            
         </div>
 
         <div class="grid-item-add glass">
@@ -29,100 +39,93 @@
 
     <script>
         async function loadTasks() {
-            const response = await fetch('/todos');
-            const tasks = await response.json();
-            const list = document.getElementById('todoList');
-            list.innerHTML = '';
+    const response = await fetch('/todos');
+    const tasks = await response.json();
+    
+    const list = document.getElementById('todoList');
+    const list2 = document.getElementById('todoList2');
+    
+    list.innerHTML = '';
+    list2.innerHTML = '';
 
-            const completedTasks = tasks.filter(task => task.completed);
-            const incompleteTasks = tasks.filter(task => !task.completed);
+    const completedTasks = tasks.filter(task => task.completed);
+    const incompleteTasks = tasks.filter(task => !task.completed);
 
-            const createListItems = (taskList) => {
-                taskList.forEach((task) => {
-                    const listItem = document.createElement('li');
+    const createListItems = (taskList, listElement) => {
+        taskList.forEach((task) => {
+            const listItem = document.createElement('li');
 
-                    const taskText = document.createElement('span');
-                    taskText.textContent = task.text;
-                    taskText.style.textDecoration = task.completed ? 'line-through' : 'none';
-                    // Create icons
-                    const completeIcon = document.createElement('i');
-                    completeIcon.className = `${task.completed ? 'fas' : 'far'} fa-check-circle complete-icon`;
-                    completeIcon.onclick = () => {
-                        toggleComplete(task.id);
-                        renderTaskList();
-                    };
+            const taskText = document.createElement('span');
+            taskText.textContent = task.text;
+            taskText.style.textDecoration = task.completed ? 'line-through' : 'none';
 
-                    const importantIcon = document.createElement('i');
-                    importantIcon.className = `${task.important ? 'fas' : 'far'} fa-star important-icon`;
-                    importantIcon.onclick = () => {
-                        toggleImportant(task.id);
-                        renderTaskList();
-                    };
-
-                    const deleteIcon = document.createElement('i');
-                    deleteIcon.className = 'fas fa-trash delete-icon';
-                    deleteIcon.onclick = () => {
-                        deleteTask(task.id);
-                        renderTaskList();
-                    };
-
-                    listItem.appendChild(taskText);
-                    listItem.appendChild(completeIcon);
-                    listItem.appendChild(importantIcon);
-                    listItem.appendChild(deleteIcon);
-
-                    listItem.style.fontWeight = task.important ? 'bold' : 'normal';
-
-                    list.appendChild(listItem);
-                });
-
-            };
-            if (incompleteTasks.length > -1) {
-                const incompleteSection = document.createElement('h2');
-                incompleteSection.innerText = 'Incomplete Tasks';
-                list.appendChild(incompleteSection);
-                createListItems(incompleteTasks);
-            }
-
-            if (completedTasks.length > -1) {
-                const completedSection = document.createElement('h2');
-                completedSection.innerText = 'Completed Tasks';
-                list.appendChild(completedSection);
-                createListItems(completedTasks);
-            }
-        }
-
-        const addTask = async () => {
-            const input = document.getElementById('todoInput');
-            const task = input.value.trim();
-            if (task) {
-                await fetch('/todos', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ task })
-                });
-                input.value = '';
+            const completeIcon = document.createElement('i');
+            completeIcon.className = `${task.completed ? 'fas' : 'far'} fa-check-circle complete-icon`;
+            completeIcon.title = task.completed ? 'Mark as Incomplete' : 'Mark as Complete';
+            completeIcon.onclick = async () => {
+                await toggleComplete(task.id);
                 loadTasks();
-            }
-        };
+            };
 
-        const toggleComplete = async (id) => {
-            await fetch(`/todos/${id}/complete`, { method: 'PATCH' });
-            loadTasks();
-        };
+            const importantIcon = document.createElement('i');
+            importantIcon.className = `${task.important ? 'fas' : 'far'} fa-star important-icon`;
+            importantIcon.title = task.important ? 'Remove Importance' : 'Mark as Important';
+            importantIcon.onclick = async () => {
+                await toggleImportant(task.id);
+                loadTasks();
+            };
 
-        const toggleImportant = async (id) => {
-            await fetch(`/todos/${id}/important`, { method: 'PATCH' });
-            loadTasks();
-        };
+            const deleteIcon = document.createElement('i');
+            deleteIcon.className = 'fas fa-trash delete-icon';
+            deleteIcon.title = 'Delete Task';
+            deleteIcon.onclick = async () => {
+                await deleteTask(task.id);
+                loadTasks();
+            };
 
-        const deleteTask = async (id) => {
-            await fetch(`/todos/${id}`, { method: 'DELETE' });
-            loadTasks();
-        };
+            listItem.appendChild(taskText);
+            listItem.appendChild(completeIcon);
+            listItem.appendChild(importantIcon);
+            listItem.appendChild(deleteIcon);
 
+            listItem.style.fontWeight = task.important ? 'bold' : 'normal';
 
+            listElement.appendChild(listItem);
+        });
+    };
+
+    createListItems(incompleteTasks, list);
+    createListItems(completedTasks, list2);
+}
+
+const addTask = async () => {
+    const input = document.getElementById('todoInput');
+    const task = input.value.trim();
+    if (task) {
+        await fetch('/todos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ task })
+        });
+        input.value = '';
         loadTasks();
+    }
+};
+
+const toggleComplete = async (id) => {
+    await fetch(`/todos/${id}/complete`, { method: 'PATCH' });
+};
+
+const toggleImportant = async (id) => {
+    await fetch(`/todos/${id}/important`, { method: 'PATCH' });
+};
+
+const deleteTask = async (id) => {
+    await fetch(`/todos/${id}`, { method: 'DELETE' });
+};
+
+loadTasks();
+
     </script>
 
 
