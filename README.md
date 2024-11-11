@@ -36,7 +36,7 @@ Make sure you have Node.js and npm installed on your machine. You can download t
 ### Installation
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/todo-list.git
+    git clone https://github.com/MulamuMammba/todo-list.git
     cd todo-list
     ```
 2. Install dependencies:
