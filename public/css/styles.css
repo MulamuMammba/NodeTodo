@@ -110,29 +110,29 @@ button {
 }
 
 .add-button:hover {
-    background-color: hwb(28 11% 57%); /* Darker green on hover */
+    background-color: hwb(28 11% 57%);
 }
 
 .complete-button {
-    background-color: #007bff; /* Blue background for complete button */
+    background-color: #007bff;
     color: white;
 }
 
 .complete-button:hover {
-    background-color: #0069d9; /* Darker blue on hover */
+    background-color: #0069d9;
 }
 
 .delete-button {
-    background-color: #dc3545; /* Red background for delete button */
+    background-color: #dc3545;
     color: white;
 }
 
 .delete-button:hover {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #c82333;
 }
 
 label {
-    margin-left: 10px; /* Space between text and radio button */
+    margin-left: 10px;
 }
 
 .grid-container {
@@ -143,6 +143,12 @@ label {
     align-content: center;
 }
 
+@media screen and (max-width: 1000px) {
+    .grid-container {
+        grid-template-columns: repeat(1, 3fr);
+        grid-template-rows: repeat(1, 250px);
+    }
+}
 .grid-item-intro,.grid-item-add {
     display: flex;
     justify-content: center;
@@ -224,13 +230,13 @@ label {
 
 .list-grid {
     display: flex;
-    flex-direction: column; /* Arrange child elements vertically */
-    height: 100%; /* Ensure list-grid fills the parent vertically */
+    flex-direction: column;
+    height: 100%;
 }
 
 .list-container {
-    flex: 1; /* Each list-container takes up an equal amount of space */
-    height: 50%; /* Set each container to 50% of the parent's height */
-    box-sizing: border-box; /* Include padding/border in height calculations */
-    overflow: auto; /* Optional: Allows scrolling if content exceeds height */
+    flex: 1;
+    height: 50%;
+    box-sizing: border-box;
+    overflow: auto;
 }
