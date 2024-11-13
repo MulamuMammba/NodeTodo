@@ -7,10 +7,23 @@ let todos = [];
 
 app.use(express.json());
 app.use(express.static("public"));
-app.set("view engine", "ejs");
 
 app.get('/todos', (req, res) => {
     res.json(todos);
+});
+
+app.get('/task-counts', (req, res) => {
+    const totalTasks = todos.length;
+    const completedTasks = todos.filter(task => task.completed).length;
+    const pendingTasks = totalTasks - completedTasks;
+    const completionPercentage = totalTasks > 0 ? (completedTasks / totalTasks * 100).toFixed(2) : 0;
+
+    res.json({
+        totalTasks,
+        completedTasks,
+        pendingTasks,
+        completionPercentage
+    });
 });
 
 app.post('/todos', (req, res) => {
