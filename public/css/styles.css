@@ -20,6 +20,8 @@
     padding: 1rem;
     color: #6d2c00;
     font-size: 20px;
+    max-width: 200px;
+    horiz-align: left;
 
 }
 
@@ -100,13 +102,18 @@ button {
 .add-button {
     border: none;
 	outline: none;
-	padding: 1.6rem 5rem;
+    padding: 1.6rem;
 	background-color: #8C6C50;
 	color: #f5f7f8;
 	font-weight: 800;
 	border-radius: 3rem;
 	cursor: pointer;
     font-size: 25px;
+    width: 120px;
+    text-align: center;
+    max-height: 80px;
+
+
 }
 
 .add-button:hover {
@@ -141,6 +148,7 @@ label {
     grid-template-rows: repeat(2, 250px); 
     gap: 20px;
     align-content: center;
+
 }
 
 @media screen and (max-width: 1000px) {
@@ -163,7 +171,8 @@ label {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     height: 100%;
 }
-.grid-item-add {
+
+.grid-item-intro {
     padding-top: 20px;
     height: 150%;
 }
@@ -186,11 +195,13 @@ label {
 	justify-content: space-between;
 	border-radius: 3rem;
 	padding-left: 2rem;
-	margin-bottom: 2.5rem;
 	background-color: #F3C8A3;
+    max-width: 400px;
 }
 
+.counter {
 
+}
 .complete-icon{
     cursor: pointer;
     margin-left: 10px;
